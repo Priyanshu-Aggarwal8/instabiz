@@ -20,6 +20,8 @@
 analyze_pj.js
 LOOM_SCRIPT.md
 *.log
+scripts/
+temp_*.html
 
 # misc
 .DS_Store

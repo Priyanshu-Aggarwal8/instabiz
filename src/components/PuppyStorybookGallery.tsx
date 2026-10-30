@@ -82,8 +82,8 @@ export function PuppyStorybookGallery({ slug }: PuppyStorybookGalleryProps) {
         const videoEl = mainBtn.querySelector('video');
         videoEl?.play().catch(() => {});
       } else {
-        const imgSrc = structuredMedia?.url || thumbImg?.getAttribute('src') || '';
-        const rawSrcset = thumbImg?.getAttribute('srcset') || '';
+        const imgSrc = structuredMedia?.url || thumbImg?.getAttribute('src') || thumbImg?.src || '';
+        const rawSrcset = thumbImg?.getAttribute('srcset') || thumbImg?.getAttribute('srcSet') || thumbImg?.srcset || '';
         const srcset = rawSrcset || `${imgSrc} 384w, ${imgSrc} 640w, ${imgSrc} 1080w, ${imgSrc} 1920w`;
         const altText = structuredMedia?.alt || thumbImg?.getAttribute('alt') || `${puppyName} photo`;
         const objPos = (structuredMedia?.focalX !== undefined && structuredMedia?.focalY !== undefined)
@@ -144,8 +144,8 @@ export function PuppyStorybookGallery({ slug }: PuppyStorybookGalleryProps) {
           <div class="relative flex-1 touch-pan-y flex items-center justify-center p-4">
             ${
               isVideo
-                ? `<video src="${item?.url || ''}" poster="${item?.poster?.url || thumbImg?.getAttribute('src') || ''}" controls autoplay playsinline class="max-h-full max-w-full object-contain"></video>`
-                : `<img src="${item?.url || thumbImg?.getAttribute('src') || ''}" alt="${item?.alt || label}" class="max-h-full max-w-full object-contain">`
+                ? `<video src="${item?.url || ''}" poster="${item?.poster?.url || thumbImg?.getAttribute('src') || thumbImg?.src || ''}" controls autoplay playsinline class="max-h-full max-w-full object-contain"></video>`
+                : `<img src="${item?.url || thumbImg?.getAttribute('src') || thumbImg?.src || ''}" alt="${item?.alt || label}" class="max-h-full max-w-full object-contain">`
             }
           </div>
           <div class="flex justify-center gap-3 pb-[calc(1rem+env(safe-area-inset-bottom))] pt-3">
