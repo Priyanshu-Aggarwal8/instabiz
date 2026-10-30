@@ -1,0 +1,27 @@
+export const siteConfig = {
+  name: "Priyanshu's submission",
+  tagline: "every puppy is family",
+  title: "Priyanshu's submission — Premium teacup puppies in Dubai",
+  description: "Teddy bear and teacup puppies in Dubai. Meet local puppies in our Downtown Dubai showroom or bring home a rare breed imported from trusted breeders.",
+  url: "https://puppy.instabizweb.com",
+  phone: "+971 54 167 6733",
+  whatsappNumber: "971541676733",
+  whatsappUrl: "https://wa.me/971541676733?text=Hi%20TeddyPups!%20I'd%20love%20to%20know%20more%20about%20your%20puppies.",
+  email: "teddypupsadmin@gmail.com",
+  location: "Downtown Dubai, United Arab Emirates",
+  showroomHours: "Monday – Sunday, 10:00 AM – 9:00 PM (By Appointment)",
+  socials: {
+    instagram: "https://www.instagram.com/teddypups.worldwide/",
+    tiktok: "https://www.tiktok.com/@teddypupsuae",
+    facebook: "https://www.facebook.com/profile.php?id=61567496944539",
+  },
+  navLinks: [
+    { label: "Home", href: "/" },
+    { label: "Puppies", href: "/puppies" },
+    { label: "Gone Home", href: "/gone-home" },
+    { label: "Happy Families", href: "/happy-families" },
+    { label: "How It Works", href: "/how-it-works" },
+    { label: "FAQ", href: "/faq" },
+    { label: "Visit & Contact", href: "/contact" },
+  ],
+};

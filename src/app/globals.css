@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Shantell+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+:root {
+  --font-figtree: 'Figtree', system-ui, -apple-system, sans-serif;
+  --font-fraunces: 'Fraunces', Georgia, serif;
+  --font-shantell: 'Shantell Sans', cursive;
+}
+
+.Veu4Sq_variable {
+  --font-fraunces: 'Fraunces', Georgia, serif;
+}
+
+.hpvSLW_variable {
+  --font-figtree: 'Figtree', system-ui, -apple-system, sans-serif;
+}
+
+._91XIoq_variable {
+  --font-shantell: 'Shantell Sans', cursive;
+}
