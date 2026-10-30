@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { puppies } from '@/data/puppies';
 import { goneHomePuppies } from '@/data/goneHome';
+import { PuppyStorybookGallery } from '@/components/PuppyStorybookGallery';
 
 interface PuppyPageProps {
   params: { slug: string };
@@ -34,10 +35,13 @@ export default function PuppyPage({ params }: PuppyPageProps) {
   if (fs.existsSync(htmlFile)) {
     const htmlContent = fs.readFileSync(htmlFile, 'utf8');
     return (
-      <div
-        style={{ display: 'contents' }}
-        dangerouslySetInnerHTML={{ __html: htmlContent }}
-      />
+      <>
+        <PuppyStorybookGallery slug={params.slug} />
+        <div
+          style={{ display: 'contents' }}
+          dangerouslySetInnerHTML={{ __html: htmlContent }}
+        />
+      </>
     );
   }
 
@@ -47,10 +51,13 @@ export default function PuppyPage({ params }: PuppyPageProps) {
     if (fs.existsSync(maxFile)) {
       const htmlContent = fs.readFileSync(maxFile, 'utf8');
       return (
-        <div
-          style={{ display: 'contents' }}
-          dangerouslySetInnerHTML={{ __html: htmlContent }}
-        />
+        <>
+          <PuppyStorybookGallery slug={params.slug} />
+          <div
+            style={{ display: 'contents' }}
+            dangerouslySetInnerHTML={{ __html: htmlContent }}
+          />
+        </>
       );
     }
   }
@@ -60,9 +67,12 @@ export default function PuppyPage({ params }: PuppyPageProps) {
   if (!pup) notFound();
 
   return (
-    <div className="py-24 text-center">
-      <h1 className="font-plush text-4xl">{pup.name}</h1>
-      <p className="mt-2 text-lg text-cocoa/70">{pup.breed}</p>
-    </div>
+    <>
+      <PuppyStorybookGallery slug={params.slug} />
+      <div className="py-24 text-center">
+        <h1 className="font-plush text-4xl">{pup.name}</h1>
+        <p className="mt-2 text-lg text-cocoa/70">{pup.breed}</p>
+      </div>
+    </>
   );
 }

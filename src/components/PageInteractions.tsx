@@ -232,6 +232,70 @@ export function PageInteractions() {
       }
     });
 
+    // 9. Puppy Storybook Image Gallery Interactions (Fallback / Universal)
+    const storypage = document.querySelector('.tp-storypage') as HTMLElement | null;
+    const prevBtn = document.querySelector('button[aria-label="Previous photo"]') as HTMLButtonElement | null;
+    const nextBtn = document.querySelector('button[aria-label="Next photo"]') as HTMLButtonElement | null;
+    const counterSpan = document.querySelector('.tp-storypage span.self-center') as HTMLElement | null;
+    const thumbList = document.querySelector('ul[aria-label^="All photos"]') as HTMLElement | null;
+    const mainBtn = storypage?.querySelector('button.absolute.inset-0') as HTMLButtonElement | null;
+
+    if (storypage && prevBtn && nextBtn && mainBtn && thumbList) {
+      const thumbButtons = Array.from(thumbList.querySelectorAll('button')) as HTMLButtonElement[];
+      const total = thumbButtons.length;
+      let activeIndex = 0;
+
+      const updateSlide = (idx: number, direction: number = 1) => {
+        activeIndex = (idx % total + total) % total;
+        if (counterSpan) counterSpan.textContent = `${activeIndex + 1} / ${total}`;
+
+        const thumb = thumbButtons[activeIndex];
+        const thumbImg = thumb?.querySelector('img');
+        const isVideo = thumb?.getAttribute('aria-label')?.includes('video') || Boolean(thumb?.querySelector('span'));
+
+        if (isVideo) {
+          const videoUrl = thumb?.dataset.videoUrl || '';
+          const posterUrl = thumbImg?.getAttribute('src') || '';
+          mainBtn.innerHTML = `<video src="${videoUrl}" poster="${posterUrl}" class="size-full object-cover" muted loop playsinline autoplay></video>`;
+          mainBtn.querySelector('video')?.play().catch(() => {});
+        } else if (thumbImg) {
+          const src = thumbImg.getAttribute('src') || '';
+          const srcset = thumbImg.getAttribute('srcset') || '';
+          const objPos = thumbImg.style.objectPosition || '50% 50%';
+          const bgColor = thumbImg.style.backgroundColor || '#785838';
+
+          mainBtn.style.transition = 'none';
+          mainBtn.style.transformOrigin = direction > 0 ? '0% 50%' : '100% 50%';
+          mainBtn.style.clipPath = direction > 0 ? 'inset(0% 0% 0% 100%)' : 'inset(0% 100% 0% 0%)';
+
+          mainBtn.innerHTML = `<img fetchpriority="high" loading="eager" decoding="async" data-nimg="fill"
+            style="position: absolute; height: 100%; width: 100%; inset: 0px; object-fit: cover; object-position: ${objPos}; color: transparent; background-color: ${bgColor};"
+            sizes="(min-width: 1024px) 55vw, 92vw"
+            srcset="${srcset}"
+            src="${src}">`;
+
+          requestAnimationFrame(() => {
+            mainBtn.style.transition = 'clip-path 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease';
+            mainBtn.style.clipPath = 'inset(0% 0% 0% 0%)';
+          });
+        }
+
+        thumbButtons.forEach((btn, i) => {
+          const isActive = i === activeIndex;
+          btn.setAttribute('aria-current', isActive ? 'true' : 'false');
+          btn.className = isActive
+            ? 'relative block h-24 w-20 overflow-hidden rounded-[0.9rem] border-[3px] transition-transform duration-300 md:h-28 md:w-24 -rotate-3 -translate-y-1 border-toffee-deep'
+            : 'relative block h-24 w-20 overflow-hidden rounded-[0.9rem] border-[3px] transition-transform duration-300 md:h-28 md:w-24 border-cocoa/30 hover:-rotate-2 hover:border-cocoa';
+        });
+      };
+
+      prevBtn.onclick = (e) => { e.preventDefault(); updateSlide(activeIndex - 1, -1); };
+      nextBtn.onclick = (e) => { e.preventDefault(); updateSlide(activeIndex + 1, 1); };
+      thumbButtons.forEach((btn, idx) => {
+        btn.onclick = (e) => { e.preventDefault(); updateSlide(idx, idx >= activeIndex ? 1 : -1); };
+      });
+    }
+
     return () => {
       cancelAnimationFrame(rafId);
       lenis.destroy();
