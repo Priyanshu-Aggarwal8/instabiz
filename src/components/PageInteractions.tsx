@@ -23,9 +23,34 @@ export function PageInteractions() {
     }
     rafId = requestAnimationFrame(raf);
 
-    // 2. Header Dynamic Behavior (elevation + hide on scroll down, show on scroll up)
+    // 2. Header Dynamic Behavior (elevation + hide on scroll down, show on scroll up + active route sync)
     const header = document.querySelector('#site-header') as HTMLElement | null;
     let lastY = window.scrollY;
+
+    const syncNavbar = () => {
+      const path = window.location.pathname;
+      const isHome = path === '/';
+      if (header) {
+        if (isHome) {
+          header.setAttribute('data-home', 'true');
+        } else {
+          header.removeAttribute('data-home');
+        }
+      }
+      document.querySelectorAll<HTMLAnchorElement>('.tp-header__nav a.tp-nav-link, .tp-menu a.tp-menu-link').forEach((link) => {
+        const href = link.getAttribute('href');
+        if (!href) return;
+        const isActive = href === '/' ? isHome : (href === '/puppies' ? (path === '/puppies' || path.startsWith('/puppies/')) : (path === href || path.startsWith(href + '/')));
+        link.setAttribute('data-active', isActive ? 'true' : 'false');
+        if (isActive) {
+          link.setAttribute('aria-current', 'page');
+        } else {
+          link.removeAttribute('aria-current');
+        }
+      });
+    };
+    syncNavbar();
+    window.addEventListener('popstate', syncNavbar);
 
     const onScroll = () => {
       const y = window.scrollY;
