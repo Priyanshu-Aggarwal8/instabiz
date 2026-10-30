@@ -19,6 +19,7 @@
 # scratch scripts & recording notes
 analyze_pj.js
 LOOM_SCRIPT.md
+script.md
 *.log
 scripts/
 temp_*.html
